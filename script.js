@@ -162,7 +162,7 @@ buttonGrid.addEventListener("click", (event) => {
                 output.textContent.includes("x")
             ) {
                 equals();
-                x = [output.textContent];
+                x = output.textContent.split("");
                 y = [];
             }
         }
