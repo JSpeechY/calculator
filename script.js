@@ -20,6 +20,8 @@ const calculator = document.querySelector(".calculator");
 const buttonGrid = document.querySelector(".calculator__btncontainer");
 const output = document.querySelector(".calculator__output");
 
+let calculatorDisplay = output.textContent;
+
 let x = [];
 let y = [];
 
@@ -27,73 +29,122 @@ buttonGrid.addEventListener("click", (event) => {
     if (event.target.matches("button")) {
         const button = event.target;
         const action = button.dataset.action;
+
         const buttonContent = button.textContent;
-        const calculatorDisplay = output.textContent;
+
+        let calculatorDisplay = output.textContent;
 
         if (!action) {
-            console.log(x);
-            console.log(y);
             if (
-                (output.textContent.includes("+") ||
-                    output.textContent.includes("-") ||
-                    output.textContent.includes("/") ||
-                    output.textContent.includes("x")) === false
+                calculatorDisplay.includes("+") == false &&
+                calculatorDisplay.includes("-") == false &&
+                calculatorDisplay.includes("x") == false &&
+                calculatorDisplay.includes("/") == false
             ) {
-                x.push(buttonContent);
+                if (buttonContent === "0" && x == "") {
+                    calculatorDisplay = calculatorDisplay;
+                } else {
+                    if (x == "") {
+                        x.push(buttonContent);
+                        output.textContent = buttonContent;
+                    } else {
+                        x.push(buttonContent);
+                        output.textContent = calculatorDisplay + buttonContent;
+                    }
+                }
             } else {
-                y.push(buttonContent);
+                if (buttonContent === "0" && y.includes("0") == false) {
+                    console.log(y.includes("0"));
+                    y.push(buttonContent);
+                    output.textContent = calculatorDisplay + buttonContent;
+                } else if (buttonContent != "0") {
+                    console.log(calculatorDisplay);
+                    y.push(buttonContent);
+                    output.textContent = calculatorDisplay + buttonContent;
+                }
             }
-        }
-        if (calculatorDisplay === "0") {
-            output.textContent = buttonContent;
-        } else {
-            output.textContent = calculatorDisplay + buttonContent;
         }
 
-        if (action === "plus") {
-            if (
-                (output.textContent.includes("+") ||
-                    output.textContent.includes("-") ||
-                    output.textContent.includes("/") ||
-                    output.textContent.includes("x")) === false
-            ) {
-                output.textContent = calculatorDisplay + "+";
+        if (action) {
+            if (action === "plus") {
+                if (
+                    calculatorDisplay.includes("+") === false &&
+                    calculatorDisplay.includes("-") === false &&
+                    calculatorDisplay.includes("/") === false &&
+                    calculatorDisplay.includes("x") === false
+                ) {
+                    output.textContent = calculatorDisplay + "+";
+                } else {
+                    calculatorDisplay = calculatorDisplay;
+                }
             }
         }
+
         if (action === "minus") {
             if (
-                (output.textContent.includes("+") ||
-                    output.textContent.includes("-") ||
-                    output.textContent.includes("/") ||
-                    output.textContent.includes("x")) === false
+                calculatorDisplay.includes("+") === false &&
+                calculatorDisplay.includes("-") === false &&
+                calculatorDisplay.includes("/") === false &&
+                calculatorDisplay.includes("x") === false
             ) {
                 output.textContent = calculatorDisplay + "-";
+            } else {
+                calculatorDisplay = calculatorDisplay;
             }
         }
+
         if (action === "divide") {
             if (
-                (output.textContent.includes("+") ||
-                    output.textContent.includes("-") ||
-                    output.textContent.includes("/") ||
-                    output.textContent.includes("x")) === false
+                calculatorDisplay.includes("+") === false &&
+                calculatorDisplay.includes("-") === false &&
+                calculatorDisplay.includes("/") === false &&
+                calculatorDisplay.includes("x") === false
             ) {
                 output.textContent = calculatorDisplay + "/";
+            } else {
+                calculatorDisplay = calculatorDisplay;
             }
         }
         if (action === "multiply") {
             if (
-                (output.textContent.includes("+") ||
-                    output.textContent.includes("-") ||
-                    output.textContent.includes("/") ||
-                    output.textContent.includes("x")) === false
+                calculatorDisplay.includes("+") === false &&
+                calculatorDisplay.includes("-") === false &&
+                calculatorDisplay.includes("/") === false &&
+                calculatorDisplay.includes("x") === false
             ) {
                 output.textContent = calculatorDisplay + "x";
+            } else {
+                calculatorDisplay = calculatorDisplay;
             }
         }
 
         if (action === "decimal") {
-            if (output.textContent.includes(".") === false) {
-                output.textContent = calculatorDisplay + ".";
+            if (
+                calculatorDisplay.includes("+") === false &&
+                calculatorDisplay.includes("-") === false &&
+                calculatorDisplay.includes("/") === false &&
+                calculatorDisplay.includes("x") === false
+            ) {
+                if (x.includes(".") === false) {
+                    x.push(buttonContent);
+                    output.textContent = calculatorDisplay + ".";
+                } else {
+                    calculatorDisplay = calculatorDisplay;
+                }
+            } else {
+                if (y.includes(".") === false) {
+                    console.log(y);
+                    if (y == "") {
+                        y.push("0");
+                        y.push(buttonContent);
+                        output.textContent = calculatorDisplay + "0.";
+                    } else {
+                        y.push(buttonContent);
+                        output.textContent = calculatorDisplay + ".";
+                    }
+                } else {
+                    calculatorDisplay = calculatorDisplay;
+                }
             }
         }
 
@@ -105,22 +156,18 @@ buttonGrid.addEventListener("click", (event) => {
 
         if (action === "equals") {
             if (
-                (output.textContent.includes("+") ||
-                    output.textContent.includes("-") ||
-                    output.textContent.includes("/") ||
-                    output.textContent.includes("x")) === true
+                output.textContent.includes("+") ||
+                output.textContent.includes("-") ||
+                output.textContent.includes("/") ||
+                output.textContent.includes("x")
             ) {
                 equals();
                 x = [output.textContent];
-                console.log(x);
+                y = [];
             }
         }
     }
 });
-
-const split = (operator) => {
-    const [x, y] = output.textContent.split(operator);
-};
 
 const equals = () => {
     if (output.textContent.includes("+")) {
