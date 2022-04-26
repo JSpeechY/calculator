@@ -22,7 +22,7 @@ const output = document.querySelector(".calculator__output");
 
 let calculatorDisplay = output.textContent;
 
-let x = [];
+let x = ["0"];
 let y = [];
 
 buttonGrid.addEventListener("click", (event) => {
@@ -41,24 +41,33 @@ buttonGrid.addEventListener("click", (event) => {
                 calculatorDisplay.includes("x") == false &&
                 calculatorDisplay.includes("/") == false
             ) {
-                if (buttonContent === "0" && x == "") {
-                    calculatorDisplay = calculatorDisplay;
+                if (x.length === 1 && x.includes("0")) {
+                    x.pop();
+                    x.push(buttonContent);
+                    output.textContent = calculatorDisplay + buttonContent;
+                    output.textContent =
+                        calculatorDisplay.substring(
+                            0,
+                            calculatorDisplay.length - 1
+                        ) + buttonContent;
                 } else {
-                    if (x == "") {
-                        x.push(buttonContent);
-                        output.textContent = buttonContent;
-                    } else {
-                        x.push(buttonContent);
-                        output.textContent = calculatorDisplay + buttonContent;
-                    }
+                    x.push(buttonContent);
+                    output.textContent = calculatorDisplay + buttonContent;
                 }
             } else {
-                if (buttonContent === "0" && y.includes("0") == false) {
-                    console.log(y.includes("0"));
+                if (y.length === 0) {
                     y.push(buttonContent);
                     output.textContent = calculatorDisplay + buttonContent;
-                } else if (buttonContent != "0") {
-                    console.log(calculatorDisplay);
+                } else if (y.length === 1 && y.includes("0")) {
+                    y.pop();
+                    y.push(buttonContent);
+
+                    output.textContent =
+                        calculatorDisplay.substring(
+                            0,
+                            calculatorDisplay.length - 1
+                        ) + buttonContent;
+                } else {
                     y.push(buttonContent);
                     output.textContent = calculatorDisplay + buttonContent;
                 }
@@ -150,7 +159,7 @@ buttonGrid.addEventListener("click", (event) => {
 
         if (action === "clear") {
             output.textContent = "0";
-            x = [];
+            x = ["0"];
             y = [];
         }
 
