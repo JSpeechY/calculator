@@ -6,5 +6,7 @@ Calculator project ussing JS, HTML, SASS and CSS.
 
 Was a lot of fun to make. Try to break it and give me some feedback.. or don't break it and give me feedback anyway :)
 
+[Live link](https://jspeechy.github.io/calculatorfun/)
+
 
 
